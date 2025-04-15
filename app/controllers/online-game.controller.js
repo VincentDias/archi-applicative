@@ -2,12 +2,16 @@ import React, { useContext, useEffect, useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { SocketContext } from "../contexts/socket.context";
 
-export default function OnlineGameController() {
+export default function OnlineGameController({ navigation }) {
   const socket = useContext(SocketContext);
 
   const [inQueue, setInQueue] = useState(false);
   const [inGame, setInGame] = useState(false);
   const [idOpponent, setIdOpponent] = useState(null);
+
+  const leaveQueue = () => {
+    socket.emit("queue.leave");
+  };
 
   useEffect(() => {
     console.log("[emit][queue.join]:", socket.id);
@@ -32,6 +36,7 @@ export default function OnlineGameController() {
       console.log("[listen][queue.left]:", data);
       setInQueue(data["inQueue"]);
       setInGame(data["inGame"]);
+      navigation.navigate("HomeScreen");
     });
   }, []);
 
@@ -49,7 +54,9 @@ export default function OnlineGameController() {
 
           <Button
             title="Revenir au menu"
-            onPress={() => navigation.navigate("HomeScreen")}
+            onPress={() => {
+              socket.emit("queue.leave");
+            }}
           />
         </>
       )}

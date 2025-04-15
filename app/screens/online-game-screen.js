@@ -15,7 +15,7 @@ export default function OnlineGameScreen({ navigation }) {
         </>
       )}
 
-      {socket && <OnlineGameController />}
+      {socket && <OnlineGameController navigation={navigation} />}
     </View>
   );
 }

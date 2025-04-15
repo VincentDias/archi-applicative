@@ -47,24 +47,9 @@ const createGame = (player1Socket, player2Socket) => {
   );
 };
 
-const cancelGame = (player1Socket, player2Socket) => {
-  const newGame = GameService.init.gameState();
-  newGame["idGame"] = uniqid();
-  newGame["player1Socket"] = player1Socket;
-  newGame["player2Socket"] = player2Socket;
-
-  games.push(newGame);
-
-  const gameIndex = GameService.utils.findGameIndexById(games, newGame.idGame);
-
-  games[gameIndex].player1Socket.emit(
-    "game.cancel",
-    GameService.send.forPlayer.viewGameState("player:1", games[gameIndex])
-  );
-  games[gameIndex].player2Socket.emit(
-    "game.cancel",
-    GameService.send.forPlayer.viewGameState("player:2", games[gameIndex])
-  );
+const removePlayerFromQueue = (playerSocket) => {
+  queue.shift();
+  playerSocket.emit("queue.left", GameService.send.forPlayer.viewLeaveQueueState());
 };
 
 // ---------------------------------------
@@ -79,8 +64,9 @@ io.on("connection", (socket) => {
     newPlayerInQueue(socket);
   });
 
-  socket.on("queue.left", () => {
-    console.log(`[${socket.id}] player left the game `);
+  socket.on("queue.leave", () => {
+    console.log(`[${socket.id}] player wants to leave queue `);
+    removePlayerFromQueue(socket);
   });
 
   socket.on("disconnect", (reason) => {

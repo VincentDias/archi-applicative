@@ -35,6 +35,13 @@ const GameService = {
           inGame: false,
         };
       },
+
+      viewLeaveQueueState: () => {
+        return {
+          inQueue: false,
+          inGame: false,
+        };
+      },
     },
   },
   utils: {
