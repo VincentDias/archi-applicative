@@ -10,10 +10,6 @@ export default function OnlineGameController({ navigation }) {
   const [inGame, setInGame] = useState(false);
   const [idOpponent, setIdOpponent] = useState(null);
 
-  const leaveQueue = () => {
-    socket.emit("queue.leave");
-  };
-
   useEffect(() => {
     console.log("[emit][queue.join]:", socket.id);
     socket.emit("queue.join");
