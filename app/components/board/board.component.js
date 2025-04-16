@@ -2,8 +2,10 @@
 
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import OpponentTimer from "../timer/opponent-timer.component";
-import PlayerTimer from "../timer/player-timer.component";
+import OpponentDeck from "../board/decks/opponent-deck.component";
+import PlayerDeck from "../board/decks/player-deck.component";
+import OpponentTimer from "../board/timer/opponent-timer.component";
+import PlayerTimer from "../board/timer/player-timer.component";
 
 const OpponentInfos = () => {
   return (
@@ -21,14 +23,6 @@ const OpponentScore = () => {
   );
 };
 
-const OpponentDeck = () => {
-  return (
-    <View style={styles.deckOpponentContainer}>
-      <Text>OpponentDeck</Text>
-    </View>
-  );
-};
-
 const Grid = () => {
   return (
     <View style={styles.gridContainer}>
@@ -41,14 +35,6 @@ const Choices = () => {
   return (
     <View style={styles.choicesContainer}>
       <Text>Choices</Text>
-    </View>
-  );
-};
-
-const PlayerDeck = () => {
-  return (
-    <View style={styles.deckPlayerContainer}>
-      <Text>PlayerDeck </Text>
     </View>
   );
 };
@@ -130,13 +116,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "lightgrey",
   },
-  deckOpponentContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    borderBottomWidth: 1,
-    borderColor: "black",
-  },
   gridContainer: {
     flex: 7,
     justifyContent: "center",
@@ -148,13 +127,6 @@ const styles = StyleSheet.create({
     flex: 3,
     justifyContent: "center",
     alignItems: "center",
-  },
-  deckPlayerContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    borderBottomWidth: 1,
-    borderColor: "black",
   },
   playerInfosContainer: {
     flex: 7,
