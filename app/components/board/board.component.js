@@ -2,6 +2,7 @@
 
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import Choices from "../board/choices/choices.component";
 import OpponentDeck from "../board/decks/opponent-deck.component";
 import PlayerDeck from "../board/decks/player-deck.component";
 import OpponentTimer from "../board/timer/opponent-timer.component";
@@ -27,14 +28,6 @@ const Grid = () => {
   return (
     <View style={styles.gridContainer}>
       <Text>Grid</Text>
-    </View>
-  );
-};
-
-const Choices = () => {
-  return (
-    <View style={styles.choicesContainer}>
-      <Text>Choices</Text>
     </View>
   );
 };
@@ -115,18 +108,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "lightgrey",
-  },
-  gridContainer: {
-    flex: 7,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRightWidth: 1,
-    borderColor: "black",
-  },
-  choicesContainer: {
-    flex: 3,
-    justifyContent: "center",
-    alignItems: "center",
   },
   playerInfosContainer: {
     flex: 7,
