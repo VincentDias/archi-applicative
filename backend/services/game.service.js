@@ -1,4 +1,5 @@
-const TURN_DURATION = 30;
+// Durée d'un tour en secondes
+const TURN_DURATION = 40;
 
 const DECK_INIT = {
   dices: [
@@ -10,6 +11,13 @@ const DECK_INIT = {
   ],
   rollsCounter: 1,
   rollsMaximum: 3,
+};
+
+const CHOICES_INIT = {
+  isDefi: false,
+  isSec: false,
+  idSelectedChoice: null,
+  availableChoices: [],
 };
 
 const GRID_INIT = [
@@ -50,24 +58,6 @@ const GRID_INIT = [
   ],
 ];
 
-const GAME_INIT = {
-  gameState: {
-    currentTurn: "player:1",
-    timer: null,
-    player1Score: 0,
-    player2Score: 0,
-    grid: [],
-    choices: {},
-    deck: {},
-  },
-};
-const CHOICES_INIT = {
-  isDefi: false,
-  isSec: false,
-  idSelectedChoice: null,
-  availableChoices: [],
-};
-
 const ALL_COMBINATIONS = [
   { value: "Brelan1", id: "brelan1" },
   { value: "Brelan2", id: "brelan2" },
@@ -84,6 +74,17 @@ const ALL_COMBINATIONS = [
   { value: "Défi", id: "defi" },
 ];
 
+const GAME_INIT = {
+  gameState: {
+    currentTurn: "player:1",
+    timer: null,
+    player1Score: 0,
+    player2Score: 0,
+    choices: {},
+    deck: {},
+  },
+};
+
 const GameService = {
   init: {
     gameState: () => {
@@ -98,16 +99,18 @@ const GameService = {
     deck: () => {
       return { ...DECK_INIT };
     },
+
     choices: () => {
       return { ...CHOICES_INIT };
     },
+
     grid: () => {
-      return { ...GRID_INIT };
+      return [...GRID_INIT];
     },
   },
+
   send: {
     forPlayer: {
-      // Return conditionnaly gameState custom objet for player views
       viewGameState: (playerKey, game) => {
         return {
           inQueue: false,
@@ -124,18 +127,12 @@ const GameService = {
         };
       },
 
-      viewLeaveQueueState: () => {
-        return {
-          inQueue: false,
-          inGame: false,
-        };
-      },
       gameTimer: (playerKey, gameState) => {
-        // Selon la clé du joueur on adapte la réponse (player / opponent)
         const playerTimer = gameState.currentTurn === playerKey ? gameState.timer : 0;
         const opponentTimer = gameState.currentTurn === playerKey ? 0 : gameState.timer;
         return { playerTimer: playerTimer, opponentTimer: opponentTimer };
       },
+
       deckViewState: (playerKey, gameState) => {
         const deckViewState = {
           displayPlayerDeck: gameState.currentTurn === playerKey,
@@ -147,6 +144,7 @@ const GameService = {
         };
         return deckViewState;
       },
+
       choicesViewState: (playerKey, gameState) => {
         const choicesViewState = {
           displayChoices: true,
@@ -154,8 +152,10 @@ const GameService = {
           idSelectedChoice: gameState.choices.idSelectedChoice,
           availableChoices: gameState.choices.availableChoices,
         };
+
         return choicesViewState;
       },
+
       gridViewState: (playerKey, gameState) => {
         return {
           displayGrid: true,
@@ -165,46 +165,19 @@ const GameService = {
       },
     },
   },
-  utils: {
-    // Return game index in global games array by id
-    findGameIndexById: (games, idGame) => {
-      for (let i = 0; i < games.length; i++) {
-        if (games[i].idGame === idGame) {
-          return i; // Retourne l'index du jeu si le socket est trouvé
-        }
-      }
-      return -1;
-    },
 
-    findGameIndexBySocketId: (games, socketId) => {
-      for (let i = 0; i < games.length; i++) {
-        if (games[i].player1Socket.id === socketId || games[i].player2Socket.id === socketId) {
-          return i; // Retourne l'index du jeu si le socket est trouvé
-        }
-      }
-      return -1;
-    },
-
-    findDiceIndexByDiceId: (dices, idDice) => {
-      for (let i = 0; i < dices.length; i++) {
-        if (dices[i].id === idDice) {
-          return i; // Retourne l'index du jeu si le socket est trouvé
-        }
-      }
-      return -1;
-    },
-  },
   timer: {
     getTurnDuration: () => {
       return TURN_DURATION;
     },
   },
+
   dices: {
     roll: (dicesToRoll) => {
       const rolledDices = dicesToRoll.map((dice) => {
         if (dice.value === "") {
           // Si la valeur du dé est vide, alors on le lance en mettant le flag locked à false
-          const newValue = String(Math.floor(Math.random() * 6) + 1);
+          const newValue = String(Math.floor(Math.random() * 6) + 1); // Convertir la valeur en chaîne de caractères
           return {
             id: dice.id,
             value: newValue,
@@ -228,11 +201,12 @@ const GameService = {
     lockEveryDice: (dicesToLock) => {
       const lockedDices = dicesToLock.map((dice) => ({
         ...dice,
-        locked: true,
+        locked: true, // Verrouille chaque dé
       }));
       return lockedDices;
     },
   },
+
   choices: {
     findCombinations: (dices, isDefi, isSec) => {
       const availableCombinations = [];
@@ -307,31 +281,97 @@ const GameService = {
       return availableCombinations;
     },
   },
-  // grid: {
-  //   resetcanBeCheckedCells: (grid) => {
-  //       const updatedGrid = // TODO
 
-  //       // La grille retournée doit avoir le flag 'canBeChecked' de toutes les cases de la 'grid' à 'false'
+  grid: {
+    resetcanBeCheckedCells: (grid) => {
+      const updatedGrid = grid.map((row) =>
+        row.map((cell) => {
+          return { ...cell, canBeChecked: false };
+        })
+      );
+      return updatedGrid;
+    },
 
-  //       return updatedGrid;
-  //   },
-  //   updateGridAfterSelectingChoice: (idSelectedChoice, grid) => {
+    updateGridAfterSelectingChoice: (idSelectedChoice, grid) => {
+      const updatedGrid = grid.map((row) =>
+        row.map((cell) => {
+          if (cell.id === idSelectedChoice && cell.owner === null) {
+            return { ...cell, canBeChecked: true };
+          } else {
+            return cell;
+          }
+        })
+      );
 
-  //       const updatedGrid = // TODO
+      return updatedGrid;
+    },
 
-  //       // La grille retournée doit avoir toutes les 'cells' qui ont le même 'id' que le 'idSelectedChoice' à 'canBeChecked: true'
+    selectCell: (idCell, rowIndex, cellIndex, currentTurn, grid) => {
+      const updatedGrid = grid.map((row, rowIndexParsing) =>
+        row.map((cell, cellIndexParsing) => {
+          if (cell.id === idCell && rowIndexParsing === rowIndex && cellIndexParsing === cellIndex) {
+            return { ...cell, owner: currentTurn };
+          } else {
+            return cell;
+          }
+        })
+      );
 
-  //       return updatedGrid;
-  //   },
-  //   selectCell: (idCell, rowIndex, cellIndex, currentTurn, grid) => {
-  //       const updatedGrid = // TODO
+      return updatedGrid;
+    },
 
-  //       // La grille retournée doit avoir avoir la case selectionnée par le joueur du tour en cours à 'owner: currentTurn'
-  //       // Nous avons besoin de rowIndex et cellIndex pour différencier les deux combinaisons similaires du plateau
+    isAnyCombinationAvailableOnGridForPlayer: (gameState) => {
+      const currentTurn = gameState.currentTurn;
+      const grid = gameState.grid;
+      const availableChoices = gameState.choices.availableChoices;
 
-  //       return updatedGrid;
-  //   }
-  // },
+      // parcours de la grille pour vérifier si une combinaison est disponible pour le joueur dont c'est le tour
+      for (let row of grid) {
+        for (let cell of row) {
+          // cérifie si la cellule peut être vérifiée et si elle n'a pas déjà de propriétaire
+          if (cell.owner === null) {
+            for (let combination of availableChoices) {
+              if (cell.id === combination.id) {
+                return true;
+              }
+            }
+          }
+        }
+      }
+
+      return false; // aucune combinaison disponible pour le joueur actuel
+    },
+  },
+
+  utils: {
+    // return game index in global games array by id
+    findGameIndexById: (games, idGame) => {
+      for (let i = 0; i < games.length; i++) {
+        if (games[i].idGame === idGame) {
+          return i; // Retourne l'index du jeu si le socket est trouvé
+        }
+      }
+      return -1;
+    },
+
+    findGameIndexBySocketId: (games, socketId) => {
+      for (let i = 0; i < games.length; i++) {
+        if (games[i].player1Socket.id === socketId || games[i].player2Socket.id === socketId) {
+          return i; // Retourne l'index du jeu si le socket est trouvé
+        }
+      }
+      return -1;
+    },
+
+    findDiceIndexByDiceId: (dices, idDice) => {
+      for (let i = 0; i < dices.length; i++) {
+        if (dices[i].id === idDice) {
+          return i; // Retourne l'index du jeu si le socket est trouvé
+        }
+      }
+      return -1;
+    },
+  },
 };
 
 module.exports = GameService;

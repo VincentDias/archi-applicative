@@ -1,3 +1,5 @@
+// app/screens/vs-bot-game.screen.js
+
 import React, { useContext } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { SocketContext } from "../contexts/socket.context";

@@ -48,13 +48,14 @@ export default function OnlineGameController({ navigation }) {
       {inQueue && (
         <>
           <Text style={styles.paragraph}>Waiting for another player...</Text>
-
-          <Button
-            title="Revenir au menu"
-            onPress={() => {
-              socket.emit("queue.leave");
-            }}
-          />
+          <View>
+            <Button
+              title="Quittez la file d'attente"
+              onPress={() => {
+                socket.emit("queue.leave");
+              }}
+            />
+          </View>
         </>
       )}
 

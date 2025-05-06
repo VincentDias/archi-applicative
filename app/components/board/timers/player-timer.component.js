@@ -1,5 +1,3 @@
-// app/components/board/timers/player-timer.component.js
-
 import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { SocketContext } from "../../../contexts/socket.context";
@@ -15,18 +13,17 @@ const PlayerTimer = () => {
   }, []);
 
   return (
-    <View style={style.playerTimerContainer}>
+    <View style={styles.playerTimerContainer}>
       <Text>Timer: {playerTimer}</Text>
     </View>
   );
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   playerTimerContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "lightgrey",
   },
 });
 

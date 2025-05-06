@@ -3,7 +3,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SocketContext } from "../../../contexts/socket.context";
-import Dice from "../decks/dice.component";
+import Dice from "./dice.component";
 
 const PlayerDeck = () => {
   const socket = useContext(SocketContext);

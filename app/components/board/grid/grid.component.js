@@ -1,5 +1,3 @@
-// app/components/board/grid/grid.component.js
-
 import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SocketContext } from "../../../contexts/socket.context";
@@ -7,17 +5,9 @@ import { SocketContext } from "../../../contexts/socket.context";
 const Grid = () => {
   const socket = useContext(SocketContext);
 
-  const [displayGrid, setDisplayGrid] = useState(true);
+  const [displayGrid, setDisplayGrid] = useState(false);
   const [canSelectCells, setCanSelectCells] = useState([]);
-  const [grid, setGrid] = useState(
-    Array(5)
-      .fill()
-      .map(() =>
-        Array(5)
-          .fill()
-          .map(() => ({ viewContent: "", id: "", owner: null, canBeChecked: false }))
-      )
-  );
+  const [grid, setGrid] = useState([]);
 
   const handleSelectCell = (cellId, rowIndex, cellIndex) => {
     if (canSelectCells) {
@@ -42,7 +32,7 @@ const Grid = () => {
             style={styles.row}>
             {row.map((cell, cellIndex) => (
               <TouchableOpacity
-                key={cell.id}
+                key={cell.id + "-" + rowIndex + "-" + cellIndex}
                 style={[
                   styles.cell,
                   cell.owner === "player:1" && styles.playerOwnedCell,

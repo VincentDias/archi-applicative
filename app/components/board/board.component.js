@@ -2,11 +2,12 @@
 
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import Choices from "../board/choices/choices.component";
-import OpponentDeck from "../board/decks/opponent-deck.component";
-import PlayerDeck from "../board/decks/player-deck.component";
-import OpponentTimer from "../board/timer/opponent-timer.component";
-import PlayerTimer from "../board/timer/player-timer.component";
+import Choices from "./choices/choices.component";
+import OpponentDeck from "./decks/opponent-deck.component";
+import PlayerDeck from "./decks/player-deck.component";
+import Grid from "./grid/grid.component";
+import OpponentTimer from "./timers/opponent-timer.component";
+import PlayerTimer from "./timers/player-timer.component";
 
 const OpponentInfos = () => {
   return (
@@ -20,14 +21,6 @@ const OpponentScore = () => {
   return (
     <View style={styles.opponentScoreContainer}>
       <Text>Score: </Text>
-    </View>
-  );
-};
-
-const Grid = () => {
-  return (
-    <View style={styles.gridContainer}>
-      <Text>Grid</Text>
     </View>
   );
 };
@@ -108,6 +101,25 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "lightgrey",
+  },
+  opponentScoreContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  deckOpponentContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderColor: "black",
+  },
+  gridContainer: {
+    flex: 7,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRightWidth: 1,
+    borderColor: "black",
   },
   playerInfosContainer: {
     flex: 7,
