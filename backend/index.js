@@ -3,6 +3,7 @@ const http = require("http").Server(app);
 const io = require("socket.io")(http);
 var uniqid = require("uniqid");
 const GameService = require("./services/game.service");
+const ScoreService = require("./services/score.service")
 
 // ---------------------------------------------------
 // -------- CONSTANTS AND GLOBAL VARIABLES -----------
@@ -199,7 +200,7 @@ io.on("connection", (socket) => {
       // check de la grille si des cases sont disponibles
       const isAnyCombinationAvailableOnGridForPlayer = GameService.grid.isAnyCombinationAvailableOnGridForPlayer(
         games[gameIndex].gameState
-      );
+        );
       // Si aucune combinaison n'est disponible après le dernier lancer OU si des combinaisons sont disponibles avec les dés mais aucune sur la grille
       if (combinations.length === 0) {
         games[gameIndex].gameState.timer = 5;
@@ -237,9 +238,9 @@ io.on("connection", (socket) => {
     // gestion de la grid
     games[gameIndex].gameState.grid = GameService.grid.resetcanBeCheckedCells(games[gameIndex].gameState.grid);
     games[gameIndex].gameState.grid = GameService.grid.updateGridAfterSelectingChoice(
-      data.choiceId,
+        data.choiceId,
       games[gameIndex].gameState.grid
-    );
+      );
 
     updateClientsViewChoices(games[gameIndex]);
     updateClientsViewGrid(games[gameIndex]);
@@ -258,6 +259,14 @@ io.on("connection", (socket) => {
     );
 
     // TODO: Here calcul score
+
+    const pointsGagnes = ScoreService.calculerScore(
+      gameState.grid,
+      joueurActuel,
+      data.rowIndex,
+      data.cellIndex,
+    );
+
     // TODO: Then check if a player win
 
     // end turn

@@ -102,25 +102,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "lightgrey",
   },
-  opponentScoreContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  deckOpponentContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    borderBottomWidth: 1,
-    borderColor: "black",
-  },
-  gridContainer: {
-    flex: 7,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRightWidth: 1,
-    borderColor: "black",
-  },
   playerInfosContainer: {
     flex: 7,
     justifyContent: "center",
@@ -132,12 +113,6 @@ const styles = StyleSheet.create({
   playerTimerScoreContainer: {
     flex: 3,
     flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "lightgrey",
-  },
-  playerScoreContainer: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "lightgrey",
