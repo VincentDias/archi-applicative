@@ -1,12 +1,12 @@
-const init = require("./gameServices/init");
-const timer = require("./gameServices/timer");
-const dices = require("./gameServices/dices");
-const send = require("./gameServices/send");
-const choices = require("./gameServices/choices");
-const grid = require("./gameServices/grid");
-const tokens = require("./gameServices/tokens");
-const score = require("./gameServices/score");
-const utils = require("./gameServices/utils");
+const init = require("./init");
+const timer = require("./timer");
+const dices = require("./dices");
+const send = require("./send");
+const choices = require("./choices");
+const grid = require("./grid");
+const tokens = require("./tokens");
+const score = require("./score");
+const utils = require("./utils");
 
 const GameService = {
   init,
