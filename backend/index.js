@@ -1,8 +1,36 @@
-const app = require("express")();
-const http = require("http").Server(app);
-const io = require("socket.io")(http);
+const express = require('express');
+const { createServer } = require('http');
+const { Server } = require('socket.io');
+const cors = require('cors');
+const db = require('./models');
+const authHandler = require('./auth');
 var uniqid = require("uniqid");
 const GameService = require("./services/game.service");
+const path = require("path");
+
+const app = express();
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"]
+  }
+});
+
+app.use(cors());
+app.use(express.json());
+
+// Initialiser la base de données
+db.sequelize.sync()
+  .then(() => {
+    console.log('Base de données synchronisée');
+  })
+  .catch(err => {
+    console.error('Erreur de synchronisation de la base de données:', err);
+  });
+
+// Gestionnaire d'authentification
+authHandler(io);
 
 // ---------------------------------------------------
 // -------- CONSTANTS AND GLOBAL VARIABLES -----------
@@ -291,8 +319,9 @@ io.on("connection", (socket) => {
 // -------- SERVER METHODS -----------
 // -----------------------------------
 
-app.get("/", (req, res) => res.sendFile("index.html"));
+app.get("/", (req, res) => res.sendFile(path.join(__dirname, "index.html")));
 
-http.listen(3000, function () {
-  console.log("listening on *:3000");
+const PORT = process.env.PORT || 3000;
+httpServer.listen(PORT, () => {
+  console.log(`Serveur démarré sur le port ${PORT}`);
 });

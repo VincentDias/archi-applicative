@@ -10,6 +10,9 @@ export const socketEndpoint = Platform.OS === "web" ? "http://localhost:3000" : 
 
 export const socket = io(socketEndpoint, {
   transports: ["websocket"],
+  reconnection: true,
+  reconnectionAttempts: 5,
+  reconnectionDelay: 1000
 });
 
 export let hasConnection = false;
@@ -21,8 +24,11 @@ socket.on("connect", () => {
 
 socket.on("disconnect", () => {
   hasConnection = false;
-  console.log("disconnected from server"); // undefined
-  socket.removeAllListeners();
+  console.log("disconnected from server");
+});
+
+socket.on("connect_error", (error) => {
+  console.log("Connection error:", error);
 });
 
 export const SocketContext = React.createContext();
