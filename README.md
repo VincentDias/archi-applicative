@@ -35,9 +35,9 @@ docker-compose up --build
 ## Accès aux services
 
 Une fois les conteneurs lancés, vous pouvez accéder à :
-- Frontend (Expo) : http://localhost:19006 (interface web)
+- Frontend (Expo) : http://localhost:8081 (interface web)
   - Pour le développement mobile : utilisez l'application Expo Go sur votre téléphone
-  - Pour le développement web : http://localhost:19006
+  - Pour le développement web : http://localhost:8081
 - Backend : http://localhost:3000
 - Base de données PostgreSQL : localhost:5432
 
@@ -70,8 +70,8 @@ Une fois les conteneurs lancés, vous pouvez accéder à :
   - Socket.IO pour la communication en temps réel
 
 - **Frontend** : Application Expo
-  - Ports : 19000, 19001, 19002, 19006
-  - Interface web : http://localhost:19006
+  - Ports : 19000, 19001, 19002, 8081
+  - Interface web : http://localhost:8081
   - Hot-reload activé grâce aux volumes Docker
 
 ## Commandes utiles
@@ -96,9 +96,6 @@ docker-compose down
 docker-compose logs -f
 ```
 
-## Sécurité
-
-- Ne committez jamais le fichier `.env`
 - Modifiez les identifiants de la base de données pour votre environnement
 
 # Socket IO Example
