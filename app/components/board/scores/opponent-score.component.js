@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { SocketContext } from '../../../../contexts/socket.context';
 
 const OpponentScore = () => {
@@ -11,10 +11,7 @@ const OpponentScore = () => {
     });
   }, []);
   return (
-    <View style={styles.opponentScoreContainer}>
-      <Text style={styles.opponentScoreTitle}>Score</Text>
-
-      <Text style={styles.opponentScoreText}>{opponentScore}</Text>
+    <View style={styles.opponentScoreContainer}>{opponentScore}
     </View>
   );
 };

@@ -3,7 +3,8 @@ const http = require("http").Server(app);
 const io = require("socket.io")(http);
 var uniqid = require("uniqid");
 const GameService = require("./services/game.service");
-const ScoreService = require("./services/score.service");
+
+const bot = require("./services/bot.js");
 
 // ---------------------------------------------------
 // -------- CONSTANTS AND GLOBAL VARIABLES -----------
