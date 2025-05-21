@@ -3,9 +3,6 @@ const http = require("http").Server(app);
 const io = require("socket.io")(http);
 var uniqid = require("uniqid");
 const GameService = require("./services/game.service");
-
-const bot = require("./bot.js");
-
 const bot = require("./services/bot.js");
 
 // ---------------------------------------------------

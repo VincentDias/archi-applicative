@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { SocketContext } from "../../../../contexts/socket.context";
 
 const PlayerTokens = () => {
@@ -10,11 +10,7 @@ const PlayerTokens = () => {
       setPlayerTokens(data["playerInfos"]["tokens"]);
     });
   }, []);
-  return (
-    <View style={styles.playerTokensContainer}>
-      <Text style={styles.playerTokensText}>{playerTokens}</Text>
-    </View>
-  );
+  return <View>{playerTokens} </View>;
 };
 
 const styles = StyleSheet.create({
@@ -23,6 +19,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-between",
     alignItems: "center",
-  }
+  },
 });
 export default PlayerTokens;
