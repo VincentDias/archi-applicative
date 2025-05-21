@@ -6,6 +6,8 @@ const GameService = require("./services/game.service");
 
 const bot = require("./bot.js");
 
+const bot = require("./services/bot.js");
+
 // ---------------------------------------------------
 // -------- CONSTANTS AND GLOBAL VARIABLES -----------
 // ---------------------------------------------------
