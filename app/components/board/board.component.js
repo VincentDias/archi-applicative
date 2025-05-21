@@ -7,7 +7,8 @@ import PlayerDeck from "./decks/player-deck.component";
 import Grid from "./grid/grid.component";
 import GameInfo from "./infos/game-info.component";
 import OpponentScore from "./scores/opponent-score.component";
-import OpponentInfo from "./infos/opponent-info.component";
+import OpponentInfos from "./infos/game/players/opponent-infos.component";
+import PlayerInfos from "./infos/game/players/player-infos.component";
 import PlayerScore from "./scores/player-score.component";
 import OpponentTimer from "./timers/opponent-timer.component";
 import PlayerTimer from "./timers/player-timer.component";
@@ -19,12 +20,11 @@ const Board = ({ gameViewState }) => {
     <DiceState>
       <GameInfo />
       <View style={[styles.row, { height: "8%" }]}>
-        <OpponentInfo />
-        <View style={styles.opponentTimerScoreTokenContainer}>
-          <OpponentScore />
-          <OpponentTokens />
-          <OpponentTimer />
-        </View>
+        <OpponentInfos />
+        <View style={styles.opponentTimerScoreTokenContainer}></View>
+        <OpponentScore />
+        <OpponentTokens />
+        <OpponentTimer />
       </View>
       <View style={[styles.row, { height: "25%" }]}>
         <OpponentDeck />
