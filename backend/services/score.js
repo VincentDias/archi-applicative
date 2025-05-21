@@ -1,4 +1,4 @@
-const victory = require("./victory");
+const win = require("./win");
 const init = require("./init");
 
 const score = {
@@ -160,7 +160,6 @@ const score = {
     } else {
       gameState.player2Score += scoreToAdd;
     }
-    console.log("-----------------------------------------------------------------------------------------------");
     console.log("vertical score to add to ", gameState.currentTurn, " : ", scoreToAdd);
     console.log("Global score of player 1 : ", gameState.player1Score);
     console.log("Global score of player 2 : ", gameState.player2Score);
@@ -216,7 +215,6 @@ const score = {
       gameState.player2Score += additionalPoints;
     }
 
-    console.log(`-----------------------------------------------------------------------------------------------`);
     console.log(`${scoreType} score to add to`, gameState.currentTurn, ":", additionalPoints);
     console.log("Global score of player 1:", gameState.player1Score);
     console.log("Global score of player 2:", gameState.player2Score);

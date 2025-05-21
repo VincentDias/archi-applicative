@@ -7,6 +7,7 @@ const grid = require("./grid");
 const tokens = require("./tokens");
 const score = require("./score");
 const utils = require("./utils");
+const win = require("./win");
 
 const GameService = {
   init,
@@ -18,6 +19,7 @@ const GameService = {
   tokens,
   score,
   utils,
+  win,
 };
 
 module.exports = GameService;
