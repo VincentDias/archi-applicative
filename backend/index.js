@@ -3,7 +3,8 @@ const http = require("http").Server(app);
 const io = require("socket.io")(http);
 var uniqid = require("uniqid");
 const GameService = require("./services/game.service");
-const ScoreService = require("./services/score.service");
+
+const bot = require("./bot.js");
 
 // ---------------------------------------------------
 // -------- CONSTANTS AND GLOBAL VARIABLES -----------
@@ -321,7 +322,7 @@ io.on("connection", (socket) => {
 
     // TODO: Here calcul score
 
-    GameService.score.detectAlignmentTypeAndScore(games[gameIndex].gameState, data.rowIndex, data.cellIndex);
+    GameService.score.determineAlignementEtScore(games[gameIndex].gameState, data.rowIndex, data.cellIndex);
 
     // TODO: Then check if a player win
 
