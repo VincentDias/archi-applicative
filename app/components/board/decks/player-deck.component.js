@@ -4,38 +4,59 @@ import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SocketContext } from "../../../contexts/socket.context";
 import Dice from "./dice.component";
+import { DiceContext } from "../../../contexts/dice.context";
 
 const PlayerDeck = () => {
   const socket = useContext(SocketContext);
   const [displayPlayerDeck, setDisplayPlayerDeck] = useState(false);
   const [dices, setDices] = useState(Array(5).fill(false));
   const [displayRollButton, setDisplayRollButton] = useState(false);
-  const [rollsCounter, setRollsCounter] = useState(0);
+  const [rollsCounter, setRollsCounter] = useState(1);
   const [rollsMaximum, setRollsMaximum] = useState(3);
+  const [isDiceAnimated, setIsDiceAnimated] = useState(false);
+
+  const { isDiceRolled, setIsDiceRolled } = useContext(DiceContext);
 
   useEffect(() => {
     socket.on("game.deck.view-state", (data) => {
       setDisplayPlayerDeck(data["displayPlayerDeck"]);
       if (data["displayPlayerDeck"]) {
         setDisplayRollButton(data["displayRollButton"]);
-        setRollsCounter(data["rollsCounter"]);
         setRollsMaximum(data["rollsMaximum"]);
         setDices(data["dices"]);
+        setRollsCounter(data["rollsCounter"]);
       }
     });
   }, []);
+
+  useEffect(() => {
+    if (isDiceRolled) {
+      setIsDiceAnimated(true);
+    }
+  }, [isDiceRolled]);
 
   const toggleDiceLock = (index) => {
     const newDices = [...dices];
     if (newDices[index].value !== "" && displayRollButton) {
       socket.emit("game.dices.lock", newDices[index].id);
+      setIsDiceAnimated(false);
     }
   };
 
   const rollDices = () => {
-    if (rollsCounter <= rollsMaximum) {
+    if (rollsCounter === 1) {
       socket.emit("game.dices.roll");
+      setIsDiceAnimated(true);
+
+      return;
     }
+
+    if (rollsCounter <= rollsMaximum) {
+      setTimeout(() => {
+        socket.emit("game.dices.roll");
+      }, 2500);
+    }
+    setIsDiceAnimated(true);
   };
 
   return (

@@ -3,10 +3,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { SocketContext } from "../../../contexts/socket.context";
+import { DiceContext } from "../../../contexts/dice.context";
 import Dice from "./dice.component";
+import { DiceContext } from "../../../contexts/dice.context";
 
 const OpponentDeck = () => {
   const socket = useContext(SocketContext);
+  const { isDiceRolled } = useContext(DiceContext);
+
   const [displayOpponentDeck, setDisplayOpponentDeck] = useState(false);
   const [opponentDices, setOpponentDices] = useState(Array(5).fill({ value: "", locked: false }));
 

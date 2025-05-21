@@ -1,14 +1,12 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
-import { LogBox } from "react-native";
 import { SocketContext, socket } from "./app/contexts/socket.context";
 import HomeScreen from "./app/screens/home.screen";
 import OnlineGameScreen from "./app/screens/online-game-screen";
 import VsBotGameScreen from "./app/screens/vs-bot-game-screen";
 
 const Stack = createStackNavigator();
-LogBox.ignoreAllLogs(true);
 
 function App() {
   return (
